@@ -1,0 +1,13 @@
+version: '2'
+
+services:
+  speka-db-dev:
+    image: postgres:12.2
+    environment:
+      - POSTGRES_PASSWORD=speka-dev
+      - POSTGRES_USER=speka
+      - POSTGRES_DB=speka-dev
+    volumes:
+    - ./pgdata:/var/lip/postgresql/data
+    ports:
+      - "5432:5432"
