@@ -4,9 +4,9 @@ services:
   speka-db-dev:
     image: postgres:12.2
     environment:
-      - POSTGRES_PASSWORD=speka-dev
       - POSTGRES_USER=speka
       - POSTGRES_DB=speka-dev
+      - POSTGRES_PASSWORD=speka
     volumes:
     - ./pgdata:/var/lip/postgresql/data
     ports:
