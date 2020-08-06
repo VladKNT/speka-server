@@ -1,27 +1,23 @@
 #!/usr/bin/env bash
 
 ###############################################################################
-## Init DB Script
+## DB Up Script
 ###############################################################################
 
 started_at=$(date +"%s")
 
 echo "-----> Provisioning containers <-----"
-
-cd ./docker
+cd ./docker/ || exit
 docker-compose up -d
 
-echo ""
+echo "-----> Building project <-----"
+npm run build
 
-#web=$(docker-compose ps | grep boilerplate-api-dev | awk '{print $1}')
+echo "-----> Running migrations <-----"
+npm run typeorm:run
 
-# Run TypeORM migrations.
-#echo "-----> Running application migrations <-----"
-
-#cd ..
-
-#npm run typeorm:migrations
-#echo ""
+echo "-----> Running seeds <-----"
+npm run typeorm:seed
 
 ended_at=$(date +"%s")
 
