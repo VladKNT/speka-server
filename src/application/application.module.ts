@@ -1,6 +1,6 @@
-import { Module } from '@nestjs/common';
+import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import * as ormconfig from '../resources/config/ormconfig';
+import * as ormconfig from "../resources/config/typeorm.config";
 
 @Module({
   imports: [
