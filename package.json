@@ -19,25 +19,28 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
+    "postgresql:stop": "sudo -u postgres pg_ctl -D /Library/PostgreSQL/12/data stop",
     "db:up": "scripts/db-up.sh",
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js --config src/resources/config/typeorm.config.ts",
     "typeorm-seeding": "ts-node ./node_modules/typeorm-seeding/dist/cli.js --config src/resources/config/typeorm.config.ts",
-    "typeorm:create": "yarn run typeorm migration:create -- -n",
-    "typeorm:generate": "yarn run typeorm migration:generate -- -n",
-    "typeorm:run": "yarn run typeorm migration:run",
-    "typeorm:revert": "yarn run typeorm migration:revert",
-    "typeorm:seed": "yarn run typeorm-seeding seed"
+    "typeorm:create": "npm run typeorm migration:create -- -n",
+    "typeorm:generate": "npm run typeorm migration:generate -- -n",
+    "typeorm:run": "npm run typeorm migration:run",
+    "typeorm:revert": "npm run typeorm migration:revert",
+    "typeorm:seed": "npm run typeorm-seeding seed"
   },
   "dependencies": {
     "@nestjs/common": "^7.0.0",
     "@nestjs/core": "^7.0.0",
     "@nestjs/platform-express": "^7.0.0",
+    "@nestjs/swagger": "^4.5.12",
     "@nestjs/typeorm": "^7.1.0",
     "dotenv": "^8.2.0",
     "pg": "^8.3.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^6.5.4",
+    "swagger-ui-express": "^4.1.4",
     "typeorm": "^0.2.25"
   },
   "devDependencies": {
