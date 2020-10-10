@@ -1,14 +1,24 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Entity, Column, CreateDateColumn, PrimaryGeneratedColumn, ManyToOne, ManyToMany, JoinTable } from "typeorm";
+import {
+  Entity,
+  Column,
+  JoinTable,
+  OneToMany,
+  ManyToOne,
+  ManyToMany,
+  CreateDateColumn,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 
+import { User } from "./user.entity";
+import { Component} from "./component.entity";
 import { Organization } from "./organization.entity";
-import {User} from "./user.entity";
 
 enum EPhase {
   INITIAL = "Initial",
-  CLOSING = "Closing",
   PLANNING = "Planning",
   IMPLEMENTATION = "Implementation",
+  CLOSING = "Closing",
 }
 
 @Entity()
@@ -30,7 +40,7 @@ export class Project {
   previewUrl: string;
 
   @Column({ type: "enum", enum: EPhase, default: EPhase.INITIAL })
-  @ApiProperty({ example: "Initial", description: "Current phase of the project" })
+  @ApiProperty({ example: "Initial", description: "The current phase of the project" })
   phase: EPhase;
 
   @CreateDateColumn({ type: "timestamp with time zone", default: () => "CURRENT_TIMESTAMP" })
@@ -57,4 +67,8 @@ export class Project {
   @JoinTable({ name: "projectTeamMember" })
   @ApiProperty({ description: "Project team members" })
   teamMembers: User[];
+
+  @OneToMany(type => Component, component => component.project)
+  @ApiProperty({ description: "Project components" })
+  components: Component[];
 }
