@@ -1,5 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Entity, Column, CreateDateColumn, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, Column, CreateDateColumn, PrimaryGeneratedColumn, OneToMany } from "typeorm";
+
+import { User } from "./user.entity";
 
 @Entity()
 export class Organization {
@@ -16,7 +18,7 @@ export class Organization {
   email: string;
 
   @Column()
-  @ApiProperty({ example: "+380 00 00 0000", description: "The email of the organization" })
+  @ApiProperty({ example: "+380 00 00 0000", description: "The contact number of the organization" })
   contactNumber: string;
 
   @Column({ nullable: true })
@@ -34,4 +36,8 @@ export class Organization {
   @CreateDateColumn({ type: "timestamp with time zone", nullable: true })
   @ApiProperty({ example: 1596696377370, description: "The deletion time  of the organization" })
   deletedAt: number;
+
+  @OneToMany(type => User, user => user.organization)
+  @ApiProperty({ description: "Organization staff" })
+  staff: User[];
 }
