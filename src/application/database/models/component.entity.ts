@@ -1,6 +1,16 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Entity, Column, CreateDateColumn, PrimaryGeneratedColumn, ManyToOne, OneToMany } from "typeorm";
+import {
+  Entity,
+  Column,
+  JoinTable,
+  OneToMany,
+  ManyToOne,
+  ManyToMany,
+  CreateDateColumn,
+  PrimaryGeneratedColumn
+} from "typeorm";
 
+import { User } from "./user.entity";
 import { Project } from "./project.entity";
 import { ComponentDetails } from "./component-details.entity";
 
@@ -58,4 +68,11 @@ export class Component {
 
   @OneToMany(type => ComponentDetails, componentDetails => componentDetails.component)
   details: ComponentDetails[];
+
+  @ManyToMany(type => User, user => user.assignments, {
+    cascade: true
+  })
+  @JoinTable({ name: "componentAssignee" })
+  @ApiProperty({ description: "Component assignee" })
+  assignees: User[];
 }
