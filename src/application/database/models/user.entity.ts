@@ -1,9 +1,19 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne, JoinColumn, OneToOne } from "typeorm";
+import {
+  Entity,
+  Column,
+  OneToOne,
+  OneToMany,
+  ManyToOne,
+  JoinColumn,
+  CreateDateColumn,
+  PrimaryGeneratedColumn
+} from "typeorm";
 
 import { Role } from "./role.entity";
 import { UserDetails } from "./user-details.entity";
 import { Organization } from "./organization.entity";
+import { RefreshToken } from "./refresh-token.entity";
 
 @Entity()
 export class User {
@@ -47,4 +57,7 @@ export class User {
   @ManyToOne(type => Organization, organization => organization.staff)
   @ApiProperty({ description: "User Organization" })
   organization: Organization;
+
+  @OneToMany(type => RefreshToken, refreshToken => refreshToken.token)
+  refreshTokens: RefreshToken[];
 }
