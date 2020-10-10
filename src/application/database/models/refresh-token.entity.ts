@@ -3,7 +3,7 @@ import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn, CreateDa
 
 import { User } from "./user.entity";
 
-@Entity()
+@Entity("refreshToken")
 export class RefreshToken {
   @PrimaryGeneratedColumn()
   @ApiProperty({ example: "333a1c84-d7ab-11ea-87d0-0242ac130003", description: "Refresh token uuid" })
