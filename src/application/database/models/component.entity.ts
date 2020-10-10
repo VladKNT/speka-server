@@ -1,7 +1,8 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Entity, Column, CreateDateColumn, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
+import { Entity, Column, CreateDateColumn, PrimaryGeneratedColumn, ManyToOne, OneToMany } from "typeorm";
 
 import { Project } from "./project.entity";
+import { ComponentDetails } from "./component-details.entity";
 
 enum EStatus {
   PLANNING = "Planning",
@@ -54,4 +55,7 @@ export class Component {
   })
   @ApiProperty({ description: "The project of the component" })
   project: Project;
+
+  @OneToMany(type => ComponentDetails, componentDetails => componentDetails.component)
+  details: ComponentDetails[];
 }
