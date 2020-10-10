@@ -1,6 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Entity, Column, CreateDateColumn, PrimaryGeneratedColumn, OneToMany } from "typeorm";
-import {User} from "./user.entity";
+
+import { User } from "./user.entity";
 
 @Entity()
 export class Organization {
@@ -37,5 +38,6 @@ export class Organization {
   deletedAt: number;
 
   @OneToMany(type => User, user => user.organization)
+  @ApiProperty({ description: "Organization staff" })
   staff: User[];
 }

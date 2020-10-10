@@ -1,6 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne, JoinColumn, OneToOne } from "typeorm";
 
+import { UserDetails } from "./user-details.entity";
 import { Organization } from "./organization.entity";
 
 @Entity()
@@ -33,6 +34,12 @@ export class User {
   @ApiProperty({ example: 1596696377370, description: "The deletion time  of the organization" })
   deletedAt: number;
 
+  @OneToOne(type => UserDetails)
+  @JoinColumn()
+  @ApiProperty({ description: "User Details" })
+  userDetails: UserDetails;
+
   @ManyToOne(type => Organization, organization => organization.staff)
+  @ApiProperty({ description: "User Organization" })
   organization: Organization;
 }
