@@ -5,7 +5,7 @@ export class UserDetails1602318815290 implements MigrationInterface {
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
-      CREATE TABLE "user_details" (
+      CREATE TABLE "userDetails" (
         "id" uuid NOT NULL DEFAULT uuid_generate_v4(), 
         "firstName" character varying NOT NULL, 
         "lastName" character varying NOT NULL, 
@@ -35,7 +35,7 @@ export class UserDetails1602318815290 implements MigrationInterface {
       ALTER TABLE 
         "user" 
       ADD 
-        CONSTRAINT "FK_51dabb934475afa077f62c116c0" FOREIGN KEY ("userDetailsId") REFERENCES "user_details"("id") ON DELETE NO ACTION ON UPDATE NO ACTION
+        CONSTRAINT "FK_51dabb934475afa077f62c116c0" FOREIGN KEY ("userDetailsId") REFERENCES "userDetails"("id") ON DELETE NO ACTION ON UPDATE NO ACTION
     `);
   }
 
@@ -60,7 +60,7 @@ export class UserDetails1602318815290 implements MigrationInterface {
       DROP 
         COLUMN "userDetailsId"`);
 
-    await queryRunner.query("DROP TABLE \"user_details\"");
+    await queryRunner.query("DROP TABLE \"userDetails\"");
   }
 
 }

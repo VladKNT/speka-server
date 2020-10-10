@@ -7,13 +7,14 @@ import {
   ManyToOne,
   JoinColumn,
   CreateDateColumn,
-  PrimaryGeneratedColumn
+  PrimaryGeneratedColumn, ManyToMany, JoinTable
 } from "typeorm";
 
 import { Role } from "./role.entity";
 import { UserDetails } from "./user-details.entity";
 import { Organization } from "./organization.entity";
 import { RefreshToken } from "./refresh-token.entity";
+import {Project} from "./project.entity";
 
 @Entity()
 export class User {
@@ -47,17 +48,22 @@ export class User {
 
   @OneToOne(type => UserDetails)
   @JoinColumn()
-  @ApiProperty({ description: "User Details" })
+  @ApiProperty({ description: "User details" })
   userDetails: UserDetails;
 
   @ManyToOne(type => Role, role => role.users)
-  @ApiProperty({ description: "User Role" })
+  @ApiProperty({ description: "User role" })
   role: Role;
 
   @ManyToOne(type => Organization, organization => organization.staff)
-  @ApiProperty({ description: "User Organization" })
+  @ApiProperty({ description: "User organization" })
   organization: Organization;
 
   @OneToMany(type => RefreshToken, refreshToken => refreshToken.token)
   refreshTokens: RefreshToken[];
+
+  @ManyToMany(type => Project, project => project.teamMembers,)
+  @JoinTable({ name: "projectTeamMember" })
+  @ApiProperty({ description: "User projects" })
+  projects: Project[];
 }

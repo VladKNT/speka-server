@@ -2,6 +2,7 @@ import { ApiProperty } from "@nestjs/swagger";
 import { Entity, Column, CreateDateColumn, PrimaryGeneratedColumn, OneToMany } from "typeorm";
 
 import { User } from "./user.entity";
+import { Project } from "./project.entity";
 
 @Entity()
 export class Organization {
@@ -40,4 +41,8 @@ export class Organization {
   @OneToMany(type => User, user => user.organization)
   @ApiProperty({ description: "Organization staff" })
   staff: User[];
+
+  @OneToMany(type => Project, project => project.organization)
+  @ApiProperty({ description: "Organization projects" })
+  projects: Project[];
 }

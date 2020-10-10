@@ -15,11 +15,7 @@ export class Role {
   @ApiProperty({ example: "333a1c84-d7ab-11ea-87d0-0242ac130003", description: "Role uuid" })
   id: string;
 
-  @Column({
-    type: "enum",
-    enum: ERoles,
-    default: ERoles.ASSISTANT,
-  })
+  @Column({ type: "enum", enum: ERoles, default: ERoles.ASSISTANT })
   @ApiProperty({ example: "Admin", description: "Role name" })
   name: ERoles;
 

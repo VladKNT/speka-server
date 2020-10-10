@@ -5,7 +5,7 @@ export class RefreshToken1602326911111 implements MigrationInterface {
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
-      CREATE TABLE "refresh_token" (
+      CREATE TABLE "refreshToken" (
         "id" SERIAL NOT NULL, 
         "token" character varying NOT NULL, 
         "fingerprint" character varying(128) NOT NULL, 
@@ -18,7 +18,7 @@ export class RefreshToken1602326911111 implements MigrationInterface {
 
     await queryRunner.query(`
       ALTER TABLE 
-        "refresh_token" 
+        "refreshToken" 
       ADD 
         CONSTRAINT "FK_8e913e288156c133999341156ad" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE NO ACTION
     `);
@@ -27,11 +27,11 @@ export class RefreshToken1602326911111 implements MigrationInterface {
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
       ALTER TABLE
-        "refresh_token"
+        "refreshToken"
       DROP
         CONSTRAINT "FK_8e913e288156c133999341156ad"
     `);
 
-    await queryRunner.query("DROP TABLE \"refresh_token\"");
+    await queryRunner.query("DROP TABLE \"refreshToken\"");
   }
 }
