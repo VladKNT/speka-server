@@ -25,7 +25,7 @@ export class User {
   @ApiProperty({ example: "333a1c84-d7ab-11ea-87d0-0242ac130003", description: "User uuid" })
   id: string;
 
-  @Column()
+  @Column({ unique: true })
   @ApiProperty({ example: "john@doe.com", description: "User email" })
   email: string;
 
