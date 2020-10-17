@@ -1,4 +1,6 @@
+import { hash } from "bcrypt";
 import { ApiProperty } from "@nestjs/swagger";
+
 import {
   Entity,
   Column,
@@ -8,6 +10,7 @@ import {
   ManyToOne,
   ManyToMany,
   JoinColumn,
+  BeforeInsert,
   CreateDateColumn,
   PrimaryGeneratedColumn,
 } from "typeorm";
@@ -25,7 +28,7 @@ export class User {
   @ApiProperty({ example: "333a1c84-d7ab-11ea-87d0-0242ac130003", description: "User uuid" })
   id: string;
 
-  @Column()
+  @Column({ unique: true })
   @ApiProperty({ example: "john@doe.com", description: "User email" })
   email: string;
 
@@ -74,4 +77,9 @@ export class User {
   @JoinTable({ name: "componentAssignee" })
   @ApiProperty({ description: "User components' assignments" })
   assignments: User[];
+
+  @BeforeInsert()
+  public async hashPasswordBeforeInsert(): Promise<void> {
+    this.password = await hash(this.password, Number(process.env.PASSWORD_SALT));
+  }
 }
