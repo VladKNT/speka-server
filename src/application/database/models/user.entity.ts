@@ -1,4 +1,6 @@
+import { hash } from "bcrypt";
 import { ApiProperty } from "@nestjs/swagger";
+
 import {
   Entity,
   Column,
@@ -8,6 +10,7 @@ import {
   ManyToOne,
   ManyToMany,
   JoinColumn,
+  BeforeInsert,
   CreateDateColumn,
   PrimaryGeneratedColumn,
 } from "typeorm";
@@ -74,4 +77,9 @@ export class User {
   @JoinTable({ name: "componentAssignee" })
   @ApiProperty({ description: "User components' assignments" })
   assignments: User[];
+
+  @BeforeInsert()
+  public async hashPasswordBeforeInsert(): Promise<void> {
+    this.password = await hash(this.password, Number(process.env.PASSWORD_SALT));
+  }
 }

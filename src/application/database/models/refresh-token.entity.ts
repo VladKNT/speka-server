@@ -5,7 +5,7 @@ import { User } from "./user.entity";
 
 @Entity("refreshToken")
 export class RefreshToken {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn("uuid")
   @ApiProperty({ example: "333a1c84-d7ab-11ea-87d0-0242ac130003", description: "Refresh token uuid" })
   id: number;
 

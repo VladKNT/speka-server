@@ -6,7 +6,7 @@ export class RefreshToken1602326911111 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
       CREATE TABLE "refreshToken" (
-        "id" SERIAL NOT NULL, 
+        "id" uuid NOT NULL DEFAULT uuid_generate_v4(),
         "token" character varying NOT NULL, 
         "fingerprint" character varying(128) NOT NULL, 
         "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP, 
