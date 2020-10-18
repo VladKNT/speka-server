@@ -4,7 +4,13 @@ import { Injectable, HttpException, HttpStatus } from "@nestjs/common";
 
 import { CreateUserDto } from "../dto/create-user.dto";
 import { User } from "../../../database/models/user.entity";
-import { FIND_BY_ID_ERROR, FIND_BY_EMAIL_ERROR } from "../../../../resources/constants/strings/errors";
+import { EPostgresErrorCodes } from "../../../../resources/types/postgresql";
+
+import {
+  FIND_BY_ID_ERROR,
+  FIND_BY_EMAIL_ERROR,
+  EMAIL_ALREADY_EXIST_ERROR,
+} from "../../../../resources/constants/strings/errors";
 
 @Injectable()
 export class UsersService {
@@ -34,7 +40,13 @@ export class UsersService {
   }
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-    const user = Object.assign(new User(), createUserDto);
-    return this.userRepository.save(user);
+    try {
+      const user = Object.assign(new User(), createUserDto);
+      return await this.userRepository.save(user);
+    } catch (error) {
+      if (error?.code === EPostgresErrorCodes.UniqueViolation) {
+        throw new HttpException(EMAIL_ALREADY_EXIST_ERROR, HttpStatus.BAD_REQUEST);
+      }
+    }
   }
 }

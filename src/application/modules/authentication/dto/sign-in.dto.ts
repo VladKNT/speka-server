@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, IsEmail, IsPhoneNumber } from "class-validator";
+import { IsString, IsEmail } from "class-validator";
 
-export class CreateUserDto {
+export class SignInDto {
   @IsEmail()
   @ApiProperty({ type: String, description: "Email" })
   readonly email: string;
@@ -13,8 +13,4 @@ export class CreateUserDto {
   @IsString()
   @ApiProperty({ type: String, description: "Browser/device fingerprint" })
   readonly fingerprint: string;
-
-  @IsPhoneNumber(null)
-  @ApiProperty({ type: String, description: "Contact Number" })
-  readonly contactNumber: string;
 }

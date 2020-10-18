@@ -1,4 +1,5 @@
 import { hash } from "bcrypt";
+import { Exclude } from "class-transformer";
 import { ApiProperty } from "@nestjs/swagger";
 
 import {
@@ -37,7 +38,7 @@ export class User {
   contactNumber: string;
 
   @Column()
-  @ApiProperty({ example: "sdfbk32sjosdclk23bkjdfgdfdfgdfgdfgc", description: "User password" })
+  @Exclude()
   password: string;
 
   @CreateDateColumn({ type: "timestamp with time zone", default: () => "CURRENT_TIMESTAMP" })
