@@ -9,8 +9,9 @@ async function bootstrap() {
   const options = new DocumentBuilder()
     .setTitle("Speka API")
     .setDescription("The Speka API documentation")
-    .setVersion("1.0")
+    .setVersion("1.0.0")
     .addTag("Speka")
+    .addBearerAuth({ type: "http", scheme: "bearer", bearerFormat: "Bearer" }, "Access token")
     .build();
 
   const document = SwaggerModule.createDocument(app, options);
