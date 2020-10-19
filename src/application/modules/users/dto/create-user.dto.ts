@@ -11,6 +11,14 @@ export class CreateUserDto {
   readonly password: string;
 
   @IsString()
+  @ApiProperty({ type: String, description: "First name" })
+  readonly firstName: string;
+
+  @IsString()
+  @ApiProperty({ type: String, description: "Last name" })
+  readonly lastName: string;
+
+  @IsString()
   @ApiProperty({ type: String, description: "Browser/device fingerprint" })
   readonly fingerprint: string;
 
