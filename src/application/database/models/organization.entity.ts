@@ -39,10 +39,8 @@ export class Organization {
   deletedAt: number;
 
   @OneToMany(type => User, user => user.organization)
-  @ApiProperty({ description: "Organization staff" })
   staff: User[];
 
   @OneToMany(type => Project, project => project.organization)
-  @ApiProperty({ description: "Organization projects" })
   projects: Project[];
 }

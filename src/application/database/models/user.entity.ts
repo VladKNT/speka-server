@@ -55,7 +55,7 @@ export class User {
 
   @OneToOne(type => UserDetails, { cascade: true })
   @JoinColumn()
-  @ApiProperty({ description: "User details" })
+  @ApiProperty({ description: "User details", type: UserDetails })
   userDetails: UserDetails;
 
   @ManyToOne(type => Role, role => role.users)
@@ -71,12 +71,10 @@ export class User {
 
   @ManyToMany(type => Project, project => project.teamMembers)
   @JoinTable({ name: "projectTeamMember" })
-  @ApiProperty({ description: "User projects" })
   projects: Project[];
 
   @ManyToMany(type => Component, component => component.assignees)
   @JoinTable({ name: "componentAssignee" })
-  @ApiProperty({ description: "User components' assignments" })
   assignments: User[];
 
   @BeforeInsert()

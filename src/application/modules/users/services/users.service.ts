@@ -4,6 +4,7 @@ import { Injectable, HttpException, HttpStatus } from "@nestjs/common";
 
 import { CreateUserDto } from "../dto/create-user.dto";
 import { User } from "../../../database/models/user.entity";
+import { UserDetails } from "../../../database/models/user-details.entity";
 import { EPostgresErrorCodes } from "../../../../resources/types/postgresql";
 
 import {
@@ -11,6 +12,7 @@ import {
   FIND_BY_EMAIL_ERROR,
   EMAIL_ALREADY_EXIST_ERROR,
 } from "../../../../resources/constants/strings/errors";
+import {FindOneOptions} from "typeorm/find-options/FindOneOptions";
 
 @Injectable()
 export class UsersService {
@@ -19,8 +21,8 @@ export class UsersService {
     private userRepository: Repository<User>,
   ) {}
 
-  async findById(id: string): Promise<User> {
-    const user = await this.userRepository.findOne({ id });
+  async findById(id: string,  options?: FindOneOptions<User>): Promise<User> {
+    const user = await this.userRepository.findOne({ id }, options);
 
     if (!user) {
       throw new HttpException(FIND_BY_ID_ERROR, HttpStatus.NOT_FOUND);
@@ -41,7 +43,11 @@ export class UsersService {
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     try {
-      const user = Object.assign(new User(), createUserDto);
+      const { firstName, lastName, ...userData } = createUserDto;
+
+      const user = Object.assign(new User(), userData);
+      user.userDetails = Object.assign(new UserDetails(), { firstName, lastName });
+
       return await this.userRepository.save(user);
     } catch (error) {
       if (error?.code === EPostgresErrorCodes.UniqueViolation) {

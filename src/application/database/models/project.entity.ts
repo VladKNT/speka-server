@@ -65,10 +65,8 @@ export class Project {
     cascade: true
   })
   @JoinTable({ name: "projectTeamMember" })
-  @ApiProperty({ description: "Project team members" })
   teamMembers: User[];
 
   @OneToMany(type => Component, component => component.project)
-  @ApiProperty({ description: "Project components" })
   components: Component[];
 }
