@@ -15,7 +15,7 @@ export class UserDetails {
   @ApiProperty({ example: "Doe", description: "User's last name" })
   lastName: string;
 
-  @Column()
+  @Column({ nullable: true })
   @ApiProperty({ example: "https:://user-avatar.com/32rwfsvsaz", description: "User's avatar Url" })
   avatarUrl: string;
 

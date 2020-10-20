@@ -33,7 +33,7 @@ export class User {
   @ApiProperty({ example: "john@doe.com", description: "User email" })
   email: string;
 
-  @Column()
+  @Column({ unique: true })
   @ApiProperty({ example: "+380 00 00 0000", description: "User contact number" })
   contactNumber: string;
 
@@ -53,9 +53,9 @@ export class User {
   @ApiProperty({ example: 1596696377370, description: "The deletion time  of the organization" })
   deletedAt: number;
 
-  @OneToOne(type => UserDetails)
+  @OneToOne(type => UserDetails, { cascade: true })
   @JoinColumn()
-  @ApiProperty({ description: "User details" })
+  @ApiProperty({ description: "User details", type: UserDetails })
   userDetails: UserDetails;
 
   @ManyToOne(type => Role, role => role.users)
@@ -71,12 +71,10 @@ export class User {
 
   @ManyToMany(type => Project, project => project.teamMembers)
   @JoinTable({ name: "projectTeamMember" })
-  @ApiProperty({ description: "User projects" })
   projects: Project[];
 
   @ManyToMany(type => Component, component => component.assignees)
   @JoinTable({ name: "componentAssignee" })
-  @ApiProperty({ description: "User components' assignments" })
   assignments: User[];
 
   @BeforeInsert()
