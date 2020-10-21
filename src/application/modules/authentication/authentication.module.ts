@@ -3,7 +3,7 @@ import { JwtModule } from "@nestjs/jwt";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { PassportModule } from "@nestjs/passport";
 
-import { UsersModule } from "../users/users.module";
+import { UserModule } from "../user/user.module";
 import { JwtStrategy} from "./strategies/jwt.strategy";
 import { TokenService } from "./services/token.service";
 import { LocalStrategy} from "./strategies/local.strategy";
@@ -14,7 +14,7 @@ import { AuthenticationController } from "./controllers/authentication.controlle
 
 @Module({
   imports: [
-    UsersModule,
+    UserModule,
     PassportModule,
     TypeOrmModule.forFeature([RefreshToken]),
     PassportModule.register({ defaultStrategy: "jwt" }),

@@ -3,13 +3,13 @@ import { PassportStrategy } from "@nestjs/passport";
 import { ExtractJwt, Strategy } from "passport-jwt";
 
 import { User } from "../../../database/models/user.entity";
-import { UsersService } from "../../users/services/users.service";
+import { UserService } from "../../user/services/user.service";
 import { TokenPayloadInterface } from "../interfaces/token-payload.interface";
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
-    private readonly usersService: UsersService,
+    private readonly usersService: UserService,
   ) {
     super({
       ignoreExpiration: false,

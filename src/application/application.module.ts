@@ -1,7 +1,8 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 
-import { UsersModule } from "./modules/users/users.module";
+import { UserModule } from "./modules/user/user.module";
+import { OrganizationModule } from "./modules/organizations/organization.module";
 import { AuthenticationModule } from "./modules/authentication/authentication.module";
 
 import * as ormconfig from "../resources/config/typeorm.config";
@@ -10,7 +11,8 @@ import * as ormconfig from "../resources/config/typeorm.config";
   imports: [
     TypeOrmModule.forRoot(ormconfig),
 
-    UsersModule,
+    UserModule,
+    OrganizationModule,
     AuthenticationModule,
   ],
 })

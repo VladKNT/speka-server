@@ -1,5 +1,6 @@
-import { Repository } from "typeorm";
+import {FindManyOptions, Repository} from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
+import { FindOneOptions } from "typeorm/find-options/FindOneOptions";
 import { Injectable, HttpException, HttpStatus } from "@nestjs/common";
 
 import { CreateUserDto } from "../dto/create-user.dto";
@@ -12,10 +13,10 @@ import {
   FIND_BY_EMAIL_ERROR,
   EMAIL_ALREADY_EXIST_ERROR,
 } from "../../../../resources/constants/strings/errors";
-import {FindOneOptions} from "typeorm/find-options/FindOneOptions";
+import {PaginationInterface} from "../../../../resources/types/common.interfaces";
 
 @Injectable()
-export class UsersService {
+export class UserService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
@@ -39,6 +40,16 @@ export class UsersService {
     }
 
     return user;
+  }
+
+  async findAll({ page = 1, limit = 10 }: PaginationInterface, options?: FindManyOptions<User>): Promise<User[]> {
+    const offset = (page - 1) * limit;
+
+    return this.userRepository.find({
+      skip: offset,
+      take: limit,
+      ...options,
+    });
   }
 
   async create(createUserDto: CreateUserDto): Promise<User> {

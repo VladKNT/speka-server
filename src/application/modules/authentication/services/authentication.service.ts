@@ -4,15 +4,15 @@ import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { RefreshTokenDto } from "../dto/refresh-token.dto";
 import { User } from "../../../database/models/user.entity";
 import { RefreshTokenService } from "./refresh-token.service";
-import { CreateUserDto } from "../../users/dto/create-user.dto";
-import { UsersService } from "../../users/services/users.service";
+import { CreateUserDto } from "../../user/dto/create-user.dto";
+import { UserService } from "../../user/services/user.service";
 import { TokenPairInterface } from "../interfaces/token-pair.interface";
 import { WRONG_PASSWORD_ERROR } from "../../../../resources/constants/strings/errors";
 
 @Injectable()
 export class AuthenticationService {
   constructor(
-    private readonly usersService: UsersService,
+    private readonly usersService: UserService,
     private readonly refreshTokenService: RefreshTokenService,
   ) {}
 
