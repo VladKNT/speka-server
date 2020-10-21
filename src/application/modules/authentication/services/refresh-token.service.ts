@@ -8,7 +8,7 @@ import { TokenService } from "./token.service";
 import { RefreshTokenDto } from "../dto/refresh-token.dto";
 import { User } from "../../../database/models/user.entity";
 import { ETokenType } from "../../../../resources/types/token";
-import { UsersService } from "../../users/services/users.service";
+import { UserService } from "../../user/services/user.service";
 import { TokenPairInterface } from "../interfaces/token-pair.interface";
 import { tokenConfig } from "../../../../resources/config/token.config";
 import { RefreshToken } from "../../../database/models/refresh-token.entity";
@@ -27,8 +27,8 @@ export class RefreshTokenService {
     private readonly refreshTokenRepository: Repository<RefreshToken>,
 
     private readonly jwtService: JwtService,
+    private readonly usersService: UserService,
     private readonly tokenService: TokenService,
-    private readonly usersService: UsersService,
   ) {}
 
   private async verifyExpiration(expirationTime: number, userId: any): Promise<void> {

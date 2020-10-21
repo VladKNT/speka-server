@@ -11,7 +11,7 @@ import { Controller, Request, Post, UseGuards, Body } from "@nestjs/common";
 import { SignInDto } from "../dto/sign-in.dto";
 import { RefreshTokenDto} from "../dto/refresh-token.dto";
 import { LocalAuthGuard } from "../guards/local-auth.guard";
-import { CreateUserDto } from "../../users/dto/create-user.dto";
+import { CreateUserDto } from "../../user/dto/create-user.dto";
 import { TokenPairInterface} from "../interfaces/token-pair.interface";
 import { AuthenticationService} from "../services/authentication.service";
 
