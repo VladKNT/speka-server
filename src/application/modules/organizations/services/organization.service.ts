@@ -7,7 +7,7 @@ import { UserService } from "../../user/services/user.service";
 import { CreateOrganizationDto } from "../dto/create-organization.dto";
 import { Organization } from "../../../database/models/organization.entity";
 import { FIND_BY_ID_ERROR } from "../../../../resources/constants/strings/errors";
-import { PaginationInterface } from "../../../../resources/types/common.interfaces";
+import { PaginationInterface } from "../../../../resources/types/common.interface";
 
 @Injectable()
 export class OrganizationService {
@@ -33,7 +33,7 @@ export class OrganizationService {
   }
 
   async findAll({ page = 1, limit = 10 }: PaginationInterface): Promise<Organization[]> {
-    const offset = (page - 1) * limit;
+    const offset = (Number(page) - 1) * Number(limit);
     return this.organizationRepository.find({ skip: offset, take: limit });
   }
 

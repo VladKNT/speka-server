@@ -14,7 +14,7 @@ import { User } from "./user.entity";
 import { Component} from "./component.entity";
 import { Organization } from "./organization.entity";
 
-enum EPhase {
+export enum EPhase {
   INITIAL = "Initial",
   PLANNING = "Planning",
   IMPLEMENTATION = "Implementation",
@@ -35,7 +35,7 @@ export class Project {
   @ApiProperty({ example: "Description", description: "Description of the project" })
   description: string;
 
-  @Column()
+  @Column({ nullable: true })
   @ApiProperty({ example: "https:://project-preview.com/23wfdsckl.png", description: "Project preview Url" })
   previewUrl: string;
 
