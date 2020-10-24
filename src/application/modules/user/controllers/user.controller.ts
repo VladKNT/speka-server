@@ -1,12 +1,4 @@
-import {
-  Get,
-  Param,
-  Request,
-  UseGuards,
-  Controller,
-  UseInterceptors,
-  ClassSerializerInterceptor
-} from "@nestjs/common";
+import { Get,  Param,  Request,  UseGuards, Controller } from "@nestjs/common";
 
 import {
   ApiTags,
@@ -24,7 +16,6 @@ import { JwtAuthGuard } from "../../authentication/guards/jwt-auth.guard";
 @ApiBearerAuth()
 @ApiTags("User")
 @Controller("user")
-@UseInterceptors(ClassSerializerInterceptor)
 export class UserController {
   constructor(
     private readonly userService: UserService,

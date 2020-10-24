@@ -1,8 +1,10 @@
-import { UseGuards, Controller, Post, Body, Get, Param } from "@nestjs/common";
+import { UseGuards, Controller, Post, Body, Get, Param, Query } from "@nestjs/common";
+
 import {
   ApiTags,
   ApiBody,
   ApiParam,
+  ApiQuery,
   ApiBearerAuth,
   ApiOkResponse,
   ApiCreatedResponse,
@@ -15,7 +17,6 @@ import { CreateOrganizationDto } from "../dto/create-organization.dto";
 import { OrganizationService } from "../services/organization.service";
 import { JwtAuthGuard } from "../../authentication/guards/jwt-auth.guard";
 import { Organization } from "../../../database/models/organization.entity";
-import { PaginationInterface } from "../../../../resources/types/common.interfaces";
 
 @ApiBearerAuth()
 @ApiTags("Organization")
@@ -36,12 +37,12 @@ export class OrganizationController {
 
   @UseGuards(JwtAuthGuard)
   @Get("/list")
-  @ApiParam({ name: "page", type: "number", example: 1, description: "Page number", required: false })
-  @ApiParam({ name: "limit", example: 10, description: "Amount of items", required: false })
+  @ApiQuery({ name: "page", type: "number", example: 1, description: "Page number", required: false })
+  @ApiQuery({ name: "limit", example: 10, description: "Amount of items", required: false })
   @ApiOkResponse({ description: "Organization", type: Organization })
   @ApiUnauthorizedResponse({ description: "Unauthorized" })
   @ApiNotFoundResponse({ description: "Organization not found" })
-  getOrganizations(@Param() params): Promise<Organization[]> {
+  getOrganizations(@Query() params): Promise<Organization[]> {
     return this.organizationService.findAll(params);
   }
 
@@ -56,13 +57,13 @@ export class OrganizationController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get("/staff/list/:id")
+  @Get(":id/staff/list/")
   @ApiParam({ name: "id",  type: "string", required: true })
-  @ApiParam({ name: "page", type: "number", example: 1, description: "Page number", required: false })
-  @ApiParam({ name: "limit", example: 10, description: "Amount of items", required: false })
+  @ApiQuery({ name: "page", type: "number", example: 1, description: "Page number", required: false })
+  @ApiQuery({ name: "limit", example: 10, description: "Amount of items", required: false })
   @ApiOkResponse({ description: "Organization's staff", type: [User] })
   @ApiUnauthorizedResponse({ description: "Unauthorized" })
-  getOrganizationStaff(@Param() { id, page, limit }): Promise<User[]> {
+  getOrganizationStaff(@Param() { id }, @Query() { page, limit }): Promise<User[]> {
     return this.organizationService.findOrganizationStaff(id, { page, limit });
   }
 }
