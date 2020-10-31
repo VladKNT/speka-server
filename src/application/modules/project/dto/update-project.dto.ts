@@ -1,19 +1,11 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, MaxLength, MinLength } from "class-validator";
+import { IsEnum, IsOptional, IsString, MaxLength, MinLength } from "class-validator";
 
 import { EPhase } from "../../../database/models/project.entity";
 
 export class UpdateProjectDto {
   @IsString()
-  @ApiProperty({
-    type: String,
-    required: true,
-    example: "345bjklsdv-2323rsv-2sacv2-23vdv",
-    description: "Id of the project",
-  })
-  id: string;
-
-  @IsString()
+  @IsOptional()
   @MinLength(4)
   @MaxLength(128)
   @ApiProperty({
@@ -25,6 +17,7 @@ export class UpdateProjectDto {
   name?: string;
 
   @IsString()
+  @IsOptional()
   @MinLength(8)
   @ApiProperty({
     type: String,
@@ -33,6 +26,8 @@ export class UpdateProjectDto {
   })
   description?: string;
 
+  @IsEnum(EPhase)
+  @IsOptional()
   @ApiProperty({
     enum: EPhase,
     example: EPhase.PLANNING,

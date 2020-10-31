@@ -33,7 +33,7 @@ export class ComponentDetails {
   @ApiProperty({ example: 1596696377370, description: "The creation time of the component details" })
   createdAt: number;
 
-  @ManyToOne(type => Component, component => component.details, { onDelete: "CASCADE" })
+  @ManyToOne(type => Component, component => component.details)
   @ApiProperty({ description: "Component" })
-  component: Component;
+  component: () => Component;
 }
