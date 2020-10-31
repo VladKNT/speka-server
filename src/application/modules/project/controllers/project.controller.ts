@@ -37,13 +37,14 @@ export class ProjectController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Patch()
+  @Patch(":id")
   @HttpCode(204)
   @ApiBody({ type: UpdateProjectDto })
+  @ApiParam({ name: "id",  type: "string", required: true })
   @ApiNoContentResponse({ description: "The project was successfully updated" })
   @ApiUnauthorizedResponse({ description: "Unauthorized" })
-  updateProject(@Body() updateProjectDto: UpdateProjectDto): Promise<void> {
-    return this.projectService.update(updateProjectDto);
+  updateProject(@Param() { id }, @Body() updateProjectDto: UpdateProjectDto): Promise<void> {
+    return this.projectService.update(id, updateProjectDto);
   }
 
   @UseGuards(JwtAuthGuard)

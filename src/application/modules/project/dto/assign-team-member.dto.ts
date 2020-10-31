@@ -9,5 +9,5 @@ export class AssignTeamMemberDto {
     description: "Team member's id",
     example: "345bjklsdv-2323rsv-2sacv2-23vdv",
   })
-  teamMemberId?: string;
+  teamMemberId: string;
 }

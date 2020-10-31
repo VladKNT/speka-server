@@ -36,11 +36,11 @@ export class Component {
   @ApiProperty({ example: "Description", description: "Description of the component" })
   description: string;
 
-  @Column()
+  @Column({ default: 0 })
   @ApiProperty({ example: 1000, description: "Spent time on the component (in minutes)" })
   spentTime: number;
 
-  @Column()
+  @Column({ default: 0 })
   @ApiProperty({ example: 80, description: "Spent time on the component (in minutes)" })
   estimatedTime: number;
 
@@ -61,12 +61,14 @@ export class Component {
   deletedAt: number;
 
   @ManyToOne(type => Project, project => project.components, {
-    onDelete: "CASCADE"
+    onDelete: "CASCADE",
   })
   @ApiProperty({ description: "The project of the component" })
-  project: Project;
+  project: () => Project;
 
-  @OneToMany(type => ComponentDetails, componentDetails => componentDetails.component)
+  @OneToMany(type => ComponentDetails, componentDetails => componentDetails.component, {
+    cascade: true,
+  })
   details: ComponentDetails[];
 
   @ManyToMany(type => User, user => user.assignments, {
