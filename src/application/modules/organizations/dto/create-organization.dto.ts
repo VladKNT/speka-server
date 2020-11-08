@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, IsEmail, IsPhoneNumber } from "class-validator";
+import { IsString, IsEmail } from "class-validator";
 
 import {
   EMAIL,
@@ -15,7 +15,7 @@ export class CreateOrganizationDto {
   @ApiProperty({ type: String, description: "The name of the organization", required: true })
   readonly name: string;
 
-  @IsPhoneNumber(null)
+  @IsString()
   @ApiProperty({ type: String, description: CONTACT_NUMBER, required: true })
   readonly contactNumber: string;
 }

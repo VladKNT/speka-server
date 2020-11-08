@@ -59,6 +59,20 @@ export class ComponentService {
     return component;
   }
 
+  async findAllUserComponents(userId: string, pagination: PaginationInterface): Promise<Component[]> {
+    const { page = 1, limit = 10 } = pagination;
+    const offset = (Number(page) - 1) * Number(limit);
+
+    return getConnection()
+      .getRepository(Component)
+      .createQueryBuilder("component")
+      .leftJoin("component.assignees", "assignees")
+      .where("assignees.id = :id", { id: userId })
+      .limit(limit)
+      .offset(offset)
+      .getMany();
+  }
+
   async updateComponent(id: string, updateComponentDto: UpdateComponentDto): Promise<void> {
     const component = Object.assign(new Component(), updateComponentDto, { updatedAt: new Date() });
     const result = await this.componentRepository.update({ id }, component);

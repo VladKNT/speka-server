@@ -5,7 +5,6 @@ import { Injectable, HttpException, HttpStatus } from "@nestjs/common";
 import { User } from "../../../database/models/user.entity";
 import { CreateProjectDto } from "../dto/create-project.dto";
 import { UpdateProjectDto } from "../dto/update-project.dto";
-import { UserService } from "../../user/services/user.service";
 import { Project } from "../../../database/models/project.entity";
 import { AssignTeamMemberDto } from "../dto/assign-team-member.dto";
 import { FindOneOptions } from "typeorm/find-options/FindOneOptions";
@@ -46,6 +45,20 @@ export class ProjectService {
     }
 
     return project;
+  }
+
+  async findAllUserProjects(userId: string, pagination: PaginationInterface): Promise<Project[]> {
+    const { page = 1, limit = 10 } = pagination;
+    const offset = (Number(page) - 1) * Number(limit);
+
+    return getConnection()
+      .getRepository(Project)
+      .createQueryBuilder("project")
+      .leftJoin("project.teamMembers", "teamMembers")
+      .where("teamMembers.id = :id", { id: userId })
+      .limit(limit)
+      .offset(offset)
+      .getMany();
   }
 
   async assignTeamMember(projectId: string, { teamMemberId: userId }: AssignTeamMemberDto): Promise<void> {

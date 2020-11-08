@@ -1,4 +1,4 @@
-import { UseGuards, Controller, Post, Body, Get, Param, Patch, HttpCode, Query } from "@nestjs/common";
+import { UseGuards, Controller, Post, Body, Get, Param, Patch, HttpCode, Query, Request } from "@nestjs/common";
 
 import {
   ApiTags,
@@ -34,6 +34,16 @@ export class ProjectController {
   @ApiUnauthorizedResponse({ description: "Unauthorized" })
   createProject(@Body() createProjectDto: CreateProjectDto): Promise<Project> {
     return this.projectService.create(createProjectDto);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get("list")
+  @ApiQuery({ name: "page", type: "number", example: 1, description: "Page number", required: false })
+  @ApiQuery({ name: "limit", example: 10, description: "Amount of items", required: false })
+  @ApiOkResponse({ description: "List of user's projects", type: [Project] })
+  @ApiUnauthorizedResponse({ description: "Unauthorized" })
+  getUserProjectList(@Request() req, @Query() { page, limit }): Promise<Project[]> {
+    return this.projectService.findAllUserProjects(req.user.id, { page, limit });
   }
 
   @UseGuards(JwtAuthGuard)

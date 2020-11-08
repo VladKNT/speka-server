@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, Param, Patch, Post, Query, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, HttpCode, Param, Patch, Post, Query, Request, UseGuards } from "@nestjs/common";
 
 import {
   ApiBody,
@@ -37,6 +37,16 @@ export class ComponentController {
   @ApiUnauthorizedResponse({ description: "Unauthorized" })
   createComponent(@Body() createComponentDto: CreateComponentDto): Promise<Component> {
     return this.componentService.create(createComponentDto);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get("list")
+  @ApiQuery({ name: "page", type: "number", example: 1, description: "Page number", required: false })
+  @ApiQuery({ name: "limit", example: 10, description: "Amount of items", required: false })
+  @ApiOkResponse({ description: "List of user's components", type: [Component] })
+  @ApiUnauthorizedResponse({ description: "Unauthorized" })
+  getUserProjectList(@Request() req, @Query() { page, limit }): Promise<Component[]> {
+    return this.componentService.findAllUserComponents(req.user.id, { page, limit });
   }
 
   @UseGuards(JwtAuthGuard)

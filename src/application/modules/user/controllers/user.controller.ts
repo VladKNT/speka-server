@@ -27,7 +27,7 @@ export class UserController {
   @ApiUnauthorizedResponse({ description: "Unauthorized" })
   @ApiNotFoundResponse({ description: "User not found" })
   getCurrentUser(@Request() req): Promise<User> {
-    return this.userService.findById(req.user.id, { relations: ["userDetails"] });
+    return this.userService.findById(req.user.id, { relations: ["userDetails", "organization"] });
   }
 
   @UseGuards(JwtAuthGuard)
