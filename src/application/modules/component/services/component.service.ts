@@ -70,6 +70,7 @@ export class ComponentService {
       .where("assignees.id = :id", { id: userId })
       .limit(limit)
       .offset(offset)
+      .orderBy("component.updatedAt", "DESC")
       .getMany();
   }
 

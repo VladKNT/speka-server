@@ -56,13 +56,13 @@ export class Project {
   deletedAt: number;
 
   @ManyToOne(type => Organization, organization => organization.staff, {
-    onDelete: "CASCADE"
+    cascade: true,
   })
   @ApiProperty({ description: "Project Organization" })
   organization: Organization;
 
   @ManyToMany(type => User, user => user.projects, {
-    cascade: true
+    cascade: true,
   })
   @JoinTable({ name: "projectTeamMember" })
   teamMembers: User[];

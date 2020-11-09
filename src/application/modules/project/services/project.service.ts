@@ -24,8 +24,11 @@ export class ProjectService {
     private projectRepository: Repository<Project>,
   ) {}
 
-  async create(createProjectDto: CreateProjectDto): Promise<Project> {
-    return this.projectRepository.save(createProjectDto);
+  async create(userId, organizationId, createProjectDto: CreateProjectDto): Promise<Project> {
+    const project = await this.projectRepository.save({ ...createProjectDto, organization: organizationId });
+    this.assignTeamMember(project.id, { teamMemberId: userId });
+
+    return project
   }
 
   async update(id: string, updateProjectDto: UpdateProjectDto): Promise<void> {
@@ -58,6 +61,7 @@ export class ProjectService {
       .where("teamMembers.id = :id", { id: userId })
       .limit(limit)
       .offset(offset)
+      .orderBy("project.updatedAt", "DESC")
       .getMany();
   }
 

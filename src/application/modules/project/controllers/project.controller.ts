@@ -32,8 +32,14 @@ export class ProjectController {
   @ApiBody({ type: CreateProjectDto })
   @ApiCreatedResponse({ description: "The project is successfully created", type: Project })
   @ApiUnauthorizedResponse({ description: "Unauthorized" })
-  createProject(@Body() createProjectDto: CreateProjectDto): Promise<Project> {
-    return this.projectService.create(createProjectDto);
+  createProject(@Request() req, @Body() createProjectDto: CreateProjectDto): Promise<Project> {
+    const {
+      id: userId,
+      organization: {
+        id: organizationId
+      },
+    } = req.user;
+    return this.projectService.create(userId, organizationId, createProjectDto);
   }
 
   @UseGuards(JwtAuthGuard)
