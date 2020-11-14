@@ -17,6 +17,7 @@ import { CreateProjectDto } from "../dto/create-project.dto";
 import { ProjectService } from "../services/project.service";
 import { Project } from "../../../database/models/project.entity";
 import { AssignTeamMemberDto } from "../dto/assign-team-member.dto";
+import { Component } from "../../../database/models/component.entity";
 import { JwtAuthGuard} from "../../authentication/guards/jwt-auth.guard";
 
 @ApiBearerAuth()
@@ -96,5 +97,16 @@ export class ProjectController {
   @ApiUnauthorizedResponse({ description: "Unauthorized" })
   getTeamMember(@Param() { id }, @Query() { page, limit }): Promise<User[]> {
     return this.projectService.findTeamMembers(id, { page, limit });
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get(":id/component/list")
+  @ApiParam({ name: "id",  type: "string", required: true })
+  @ApiQuery({ name: "page", type: "number", example: 1, description: "Page number", required: false })
+  @ApiQuery({ name: "limit", example: 10, description: "Amount of items", required: false })
+  @ApiOkResponse({ description: "List of project components", type: [Component] })
+  @ApiUnauthorizedResponse({ description: "Unauthorized" })
+  findProjectComponents(@Param() { id }, @Query() { page, limit }): Promise<Component[]> {
+    return this.projectService.findProjectComponents(id, { page, limit });
   }
 }

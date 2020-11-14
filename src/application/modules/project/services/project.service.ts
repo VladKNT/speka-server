@@ -8,6 +8,7 @@ import { UpdateProjectDto } from "../dto/update-project.dto";
 import { Project } from "../../../database/models/project.entity";
 import { AssignTeamMemberDto } from "../dto/assign-team-member.dto";
 import { FindOneOptions } from "typeorm/find-options/FindOneOptions";
+import { Component } from "../../../database/models/component.entity";
 import { EPostgresErrorCodes } from "../../../../resources/types/postgresql";
 import { PaginationInterface } from "../../../../resources/types/common.interface";
 
@@ -97,6 +98,21 @@ export class ProjectService {
       .where("project.id = :id", { id })
       .limit(limit)
       .offset(offset)
+      .getMany();
+  }
+
+  async findProjectComponents(projectId: string, pagination: PaginationInterface): Promise<Component[]> {
+    const { page = 1, limit = 10 } = pagination;
+    const offset = (Number(page) - 1) * Number(limit);
+
+    return getConnection()
+      .getRepository(Component)
+      .createQueryBuilder("component")
+      .leftJoin("component.project", "project")
+      .where("project.id = :id", { id: projectId })
+      .limit(limit)
+      .offset(offset)
+      .orderBy("project.updatedAt", "DESC")
       .getMany();
   }
 }

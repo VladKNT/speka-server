@@ -83,7 +83,7 @@ export class ComponentService {
     }
   }
 
-  async findProjectDetailsVersionsAmount(componentId: string): Promise<number> {
+  async findComponentDetailsVersionsAmount(componentId: string): Promise<number> {
     return await this.componentDetailsRepository.count({ component: componentId });
   }
 
@@ -91,7 +91,7 @@ export class ComponentService {
     componentId: string,
     createComponentDetailsDto: CreateComponentDetailsDto,
   ): Promise<ComponentDetails> {
-    const versionsAmount = await this.findProjectDetailsVersionsAmount(componentId);
+    const versionsAmount = await this.findComponentDetailsVersionsAmount(componentId);
     const version = versionsAmount + 1;
 
     const componentDetails = Object.assign(new ComponentDetails(), createComponentDetailsDto, {

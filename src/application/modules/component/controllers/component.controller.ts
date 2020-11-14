@@ -101,7 +101,7 @@ export class ComponentController {
   @ApiUnauthorizedResponse({ description: "Unauthorized" })
   @ApiNotFoundResponse({ description: "Component details not found" })
   getComponentDetailsVersionAmount(@Param() { id }): Promise<number> {
-    return this.componentService.findProjectDetailsVersionsAmount(id);
+    return this.componentService.findComponentDetailsVersionsAmount(id);
   }
 
   @UseGuards(JwtAuthGuard)
