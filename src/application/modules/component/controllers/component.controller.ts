@@ -21,6 +21,7 @@ import { JwtAuthGuard } from "../../authentication/guards/jwt-auth.guard";
 import { AssignTeamMemberDto } from "../../project/dto/assign-team-member.dto";
 import { CreateComponentDetailsDto } from "../dto/create-component-details.dto";
 import { ComponentDetails } from "../../../database/models/component-details.entity";
+import {ComponentWithDetailsInterface} from "../interfaces/component-with-details.interface";
 
 @ApiBearerAuth()
 @ApiTags("Component")
@@ -57,6 +58,23 @@ export class ComponentController {
   @ApiNotFoundResponse({ description: "Component not found" })
   getComponentById(@Param() { id }): Promise<Component> {
     return this.componentService.findById(id, { relations: ["project"] });
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get("/with-details/:id")
+  @ApiParam({ name: "id",  type: "string", required: true })
+  @ApiOkResponse({ description: "Component with details", type: ComponentWithDetailsInterface })
+  @ApiUnauthorizedResponse({ description: "Unauthorized" })
+  @ApiNotFoundResponse({ description: "Component not found" })
+  async getComponentWithDetailsById(@Param() { id }): Promise<ComponentWithDetailsInterface> {
+    const component = await this.componentService.findById(id);
+    const versionsAmount = await this.componentService.findComponentDetailsVersionsAmount(id);
+    const componentDetails = await this.componentService.findComponentDetailsByVersion(id, versionsAmount);
+
+    return {
+      component,
+      componentDetails,
+    }
   }
 
   @UseGuards(JwtAuthGuard)
