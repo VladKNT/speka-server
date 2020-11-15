@@ -10,7 +10,7 @@ export class CreateComponentDetailsDto {
     example: "Some features",
     description: "Features of the component",
   })
-  features?: string;
+  readonly features?: string;
 
   @IsString()
   @IsOptional()
@@ -20,7 +20,7 @@ export class CreateComponentDetailsDto {
     example: "Some future features",
     description: "Future features of the component",
   })
-  futureFeatures?: string;
+  readonly futureFeatures?: string;
 
   @IsString()
   @IsOptional()
@@ -30,7 +30,7 @@ export class CreateComponentDetailsDto {
     example: "Some notes",
     description: "Notes of the component",
   })
-  notes?: string;
+  readonly notes?: string;
 
   @IsString()
   @IsOptional()
@@ -40,5 +40,5 @@ export class CreateComponentDetailsDto {
     example: "Some requirements",
     description: "Requirements of the component",
   })
-  requirements?: string;
+  readonly requirements?: string;
 }

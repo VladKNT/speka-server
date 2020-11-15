@@ -53,5 +53,5 @@ export class CreateComponentDto {
     description: "Id of the project",
     example: "def2xs2312kj-23vssd-231wqd",
   })
-  projectId: string;
+  readonly projectId: string;
 }

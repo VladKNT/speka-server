@@ -112,7 +112,7 @@ export class ProjectService {
       .where("project.id = :id", { id: projectId })
       .limit(limit)
       .offset(offset)
-      .orderBy("project.updatedAt", "DESC")
+      .orderBy("component.updatedAt", "DESC")
       .getMany();
   }
 }
