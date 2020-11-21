@@ -146,6 +146,7 @@ export class ComponentService {
       .getRepository(User)
       .createQueryBuilder("user")
       .leftJoin("user.assignments", "assignment")
+      .leftJoinAndSelect("user.userDetails", "userDetails")
       .where("assignment.id = :id", { id })
       .limit(limit)
       .offset(offset)

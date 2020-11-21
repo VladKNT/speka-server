@@ -95,6 +95,7 @@ export class ProjectService {
       .getRepository(User)
       .createQueryBuilder("user")
       .leftJoin("user.projects", "project")
+      .leftJoinAndSelect("user.userDetails", "userDetails")
       .where("project.id = :id", { id })
       .limit(limit)
       .offset(offset)
