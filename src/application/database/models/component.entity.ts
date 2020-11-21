@@ -14,7 +14,7 @@ import { User } from "./user.entity";
 import { Project } from "./project.entity";
 import { ComponentDetails } from "./component-details.entity";
 
-enum EStatus {
+export enum EStatus {
   PLANNING = "Planning",
   IN_PROGRESS = "In progress",
   READY_FOR_TESTING = "Ready for testing",

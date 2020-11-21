@@ -117,7 +117,7 @@ export class ComponentController {
   @ApiParam({ name: "id",  type: "string", required: true })
   @ApiOkResponse({ description: "Component Details versions amount", type: Number })
   @ApiUnauthorizedResponse({ description: "Unauthorized" })
-  @ApiNotFoundResponse({ description: "Component details not found" })
+  @ApiNotFoundResponse({ description: "Component details versions amount not found" })
   getComponentDetailsVersionAmount(@Param() { id }): Promise<number> {
     return this.componentService.findComponentDetailsVersionsAmount(id);
   }

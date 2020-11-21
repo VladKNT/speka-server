@@ -1,5 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, MinLength, MaxLength, IsNumber, IsOptional } from "class-validator";
+import { IsString, MinLength, MaxLength, IsNumber, IsOptional, IsEnum } from "class-validator";
+
+import { EStatus } from "../../../database/models/component.entity";
 
 export class UpdateComponentDto {
   @IsString()
@@ -25,6 +27,17 @@ export class UpdateComponentDto {
     description: "Component description",
   })
   readonly description?: string;
+
+  @IsEnum(EStatus)
+  @IsOptional()
+  @ApiProperty({
+    type: "enum",
+    enum: EStatus,
+    required: false,
+    description: "Phase",
+    example: EStatus.PLANNING,
+  })
+  readonly phase?: EStatus;
 
   @IsNumber()
   @IsOptional()
