@@ -95,7 +95,7 @@ export class ProjectController {
   @ApiQuery({ name: "limit", example: 10, description: "Amount of items", required: false })
   @ApiOkResponse({ description: "List of team members", type: [User] })
   @ApiUnauthorizedResponse({ description: "Unauthorized" })
-  getTeamMember(@Param() { id }, @Query() { page, limit }): Promise<User[]> {
+  getTeamMembers(@Param() { id }, @Query() { page, limit }): Promise<User[]> {
     return this.projectService.findTeamMembers(id, { page, limit });
   }
 

@@ -57,7 +57,7 @@ export class OrganizationController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get(":id/staff/list/")
+  @Get(":id/staff/list")
   @ApiParam({ name: "id",  type: "string", required: true })
   @ApiQuery({ name: "page", type: "number", example: 1, description: "Page number", required: false })
   @ApiQuery({ name: "limit", example: 10, description: "Amount of items", required: false })
